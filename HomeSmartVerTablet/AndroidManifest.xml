@@ -31,6 +31,7 @@
         </activity>
         <activity
             android:name="my.com.homesmartvertablet.activity.MainActivity"
+            android:theme="@style/MainTheme"
             android:screenOrientation="landscape" >
         </activity>
          <activity

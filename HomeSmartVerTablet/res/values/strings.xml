@@ -17,7 +17,7 @@
     <string name="toilet">Toilet</string>
     <string name="select_room">Select room of your house</string>
     <string name="add_device">Add</string>
-    <string name="refesh">SYNC</string>
+    <string name="refesh">Sync</string>
     <string name="about">About</string>
     <string name="text_device_name">DEVICE NAME</string>
 	<string name="text_port_deivce">PORT</string>
