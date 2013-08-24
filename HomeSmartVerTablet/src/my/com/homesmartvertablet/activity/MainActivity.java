@@ -40,6 +40,7 @@ public class MainActivity extends Activity {
 	private List<DeviceItem> listDeviceItem;
 	private static int pos = 0;
 	private static int posRoom =0;
+	//update check-out my svn
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
