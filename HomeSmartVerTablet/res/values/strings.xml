@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Smart Home</string>
+    <string name="config">Configuration</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="text_logo">SMART HOME</string>
+    <string name="edt_hint_phone">Ex: 01656250809</string>
+    <string name="text_enter_phone_num">Please enter phone number of device!</string>
+    <string name="btn_next">Next</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_finish">Finish</string>
+    <string name="living_room">Living Room</string>
+    <string name="bed_room">Bed Room</string>
+    <string name="kitchen">Kitchen Room</string>
+    <string name="toilet">Toilet</string>
+    <string name="select_room">Select room of your house</string>
+    <string name="add_device">Add</string>
+    <string name="refesh">SYNC</string>
+    <string name="about">About</string>
+    <string name="text_device_name">DEVICE NAME</string>
+	<string name="text_port_deivce">PORT</string>
+	<string-array name="context_menu">
+	    <item >Edit</item>
+	    <item >Delete</item>
+	</string-array>
+</resources>
