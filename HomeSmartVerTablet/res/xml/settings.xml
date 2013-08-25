@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="Phone Number Of Device Control" >
+        <EditTextPreference
+            android:key="phone_num_key"
+            android:summary="Enter phone number of device control..."
+            android:title="Phone Number" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

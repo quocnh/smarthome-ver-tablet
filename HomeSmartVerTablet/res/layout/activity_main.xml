@@ -1,46 +1,49 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-    <LinearLayout
-        android:id="@+id/linear_left_room"
-        android:layout_width="400dp"
-        android:layout_height="match_parent" 
-        android:background="@android:color/transparent">
-
-        <ListView
-            android:id="@+id/main_list_room"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#ddd" 
-            android:dividerHeight="10dp">
-        </ListView>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linear_right_device"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="20dp"
-        android:layout_toRightOf="@+id/linear_left_room" >
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin" >
 
-        <ListView
-            android:id="@+id/main_list_device"
+        <LinearLayout
+            android:id="@+id/linear_left_room"
+            android:layout_width="400dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent" >
+
+            <ListView
+                android:id="@+id/main_list_room"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#ddd"
+                android:dividerHeight="10dp" >
+            </ListView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_right_device"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:dividerHeight="10dp"
-            android:fastScrollEnabled="true"
-            android:fastScrollAlwaysVisible="true"
-            android:scrollbarStyle="outsideInset"
-            android:cacheColorHint="@android:color/transparent"
-             >
-        </ListView>
-    </LinearLayout>
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/linear_left_room" >
 
-</RelativeLayout>
+            <ListView
+                android:id="@+id/main_list_device"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:cacheColorHint="@android:color/transparent"
+                android:dividerHeight="10dp"
+                android:fastScrollEnabled="true"
+                android:scrollbarStyle="outsideInset" >
+            </ListView>
+        </LinearLayout>
+        <!-- android:fastScrollAlwaysVisible="true" -->
+    </RelativeLayout>
+</FrameLayout>

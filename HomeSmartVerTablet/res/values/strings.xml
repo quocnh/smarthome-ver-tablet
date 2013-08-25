@@ -20,9 +20,15 @@
     <string name="refesh">Sync</string>
     <string name="about">About</string>
     <string name="text_device_name">DEVICE NAME</string>
-	<string name="text_port_deivce">PORT</string>
-	<string-array name="context_menu">
-	    <item >Edit</item>
-	    <item >Delete</item>
-	</string-array>
+    <string name="text_port_deivce">PORT</string>
+    <string name="pull_to_refresh_pull_label">Pull to refresh...</string>
+    <string name="pull_to_refresh_release_label">Release to refresh...</string>
+    <string name="pull_to_refresh_refreshing_label">Loading...</string>
+    <string name="pull_to_refresh_tap_label">Tap to refresh...</string>
+
+    <string-array name="context_menu">
+        <item>Edit</item>
+        <item>Delete</item>
+    </string-array>
+
 </resources>

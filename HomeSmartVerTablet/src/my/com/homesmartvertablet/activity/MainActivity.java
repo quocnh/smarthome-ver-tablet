@@ -40,6 +40,7 @@ public class MainActivity extends Activity {
 	private List<DeviceItem> listDeviceItem;
 	private static int pos = 0;
 	private static int posRoom =0;
+	public static String phoneNumberDefault ;
 	//update check-out my svn
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +95,7 @@ public class MainActivity extends Activity {
 				listviewDeviceItem.invalidateViews();
 			}
 		});
+		
 		// create list item of living room
 		// 0-living room, 1 - bed room, 2-kitchen room, 3-toilet
 		// 0 - lamp, 1 -fan, 2-window gara, 3-camera
@@ -196,6 +198,8 @@ public class MainActivity extends Activity {
 			}
 			case R.id.action_settings:{
 				Toast.makeText(MainActivity.this, "SETTINGS", Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent(MainActivity.this, PreferenceActivity.class);
+				startActivity(intent);
 				break;
 			}
 		}
