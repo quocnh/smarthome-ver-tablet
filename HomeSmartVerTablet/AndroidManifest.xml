@@ -46,6 +46,8 @@
             android:screenOrientation="landscape"
             >
         </activity>
+        <activity android:name="my.com.homesmartvertablet.activity.PreferenceActivity"
+            android:screenOrientation="landscape"></activity>
     </application>
 
 </manifest>
