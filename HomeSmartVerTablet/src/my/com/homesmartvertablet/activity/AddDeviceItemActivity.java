@@ -65,6 +65,10 @@ public class AddDeviceItemActivity extends Activity implements OnCheckedChangeLi
 				typeDevice = 3;
 				break;
 			}
+			case R.id.add_device_actvity_checkbox_tv:{
+				typeDevice = 4;
+				break;
+			}
 		
 		}
 	}
