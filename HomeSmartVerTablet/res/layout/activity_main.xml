@@ -23,7 +23,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#ddd"
-                android:dividerHeight="10dp" >
+                android:choiceMode="singleChoice"
+                android:dividerHeight="10dp"
+                android:smoothScrollbar="true" >
             </ListView>
         </LinearLayout>
 
@@ -32,18 +34,36 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@+id/linear_left_room" >
+            android:layout_toRightOf="@+id/linear_left_room"
+            android:background="@android:color/transparent" >
 
             <ListView
                 android:id="@+id/main_list_device"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:cacheColorHint="@android:color/transparent"
                 android:dividerHeight="10dp"
+                android:fastScrollAlwaysVisible="true"
                 android:fastScrollEnabled="true"
                 android:scrollbarStyle="outsideInset" >
             </ListView>
         </LinearLayout>
         <!-- android:fastScrollAlwaysVisible="true" -->
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relative_overlay_instruction"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#88666666" >
+
+        <ImageView
+            android:id="@+id/image_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:clickable="false"
+            android:scaleType="center"
+            android:src="@drawable/overlay_instruction" />
+    </RelativeLayout>
+
 </FrameLayout>

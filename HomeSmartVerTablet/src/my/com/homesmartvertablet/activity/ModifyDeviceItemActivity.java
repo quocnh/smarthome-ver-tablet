@@ -28,6 +28,7 @@ public class ModifyDeviceItemActivity extends Activity implements OnClickListene
 	private RadioButton radio_camera;
 	private RadioButton radio_garage;
 	private RadioGroup radioGroup;
+	private RadioButton radio_tv;
 	private Button btnSave,btnCancel;
 	private int deviceID,devicePort,deviceStatus,deviceType,roomID;
 	private String deviceName;
@@ -46,6 +47,7 @@ public class ModifyDeviceItemActivity extends Activity implements OnClickListene
 		radio_fan = (RadioButton)findViewById(R.id.modify_checkbox_fan);
 		radio_camera = (RadioButton)findViewById(R.id.modify_checkbox_camera);
 		radio_garage = (RadioButton)findViewById(R.id.modify_checkbox_garage);
+		radio_tv = (RadioButton)findViewById(R.id.modify_checkbox_tv);
 		radioGroup = (RadioGroup)findViewById(R.id.radio_group);
 		btnSave = (Button)findViewById(R.id.modify_btn_save);
 		btnCancel = (Button)findViewById(R.id.modify_btn_cancel);
@@ -85,7 +87,10 @@ public class ModifyDeviceItemActivity extends Activity implements OnClickListene
 				radio_camera.setChecked(true);
 				break;
 			}
-		
+			case 4:{
+				radio_tv.setChecked(true);
+				break;
+			}
 		}
 		//set value of edit text name
 		edtNameDevice.setText(deviceName);
@@ -170,6 +175,10 @@ public class ModifyDeviceItemActivity extends Activity implements OnClickListene
 			}
 			case R.id.modify_checkbox_camera:{
 				deviceType = 3;
+				break;
+			}
+			case R.id.modify_checkbox_tv:{
+				deviceType = 4;
 				break;
 			}
 		}

@@ -66,6 +66,14 @@
                 android:layout_marginLeft="26dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/camera_48" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="26dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/tv_48" />
         </LinearLayout>
 
         <LinearLayout
@@ -73,7 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/add_device_actvity_ln_item_type_device"
-            android:layout_marginLeft="155dp" >
+            android:layout_marginLeft="150dp" >
 
             <RadioGroup
                 android:id="@+id/add_device_actvity_radio_group"
@@ -103,6 +111,13 @@
 
                 <RadioButton
                     android:id="@+id/add_device_actvity_checkbox_camera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:checked="false" />
+
+                <RadioButton
+                    android:id="@+id/add_device_actvity_checkbox_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -142,7 +157,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal" />
     </LinearLayout>
- <LinearLayout
+
+    <LinearLayout
         android:id="@+id/add_device_actvity_ln_port_device"
         android:layout_width="match_parent"
         android:layout_height="20dp"
@@ -159,7 +175,8 @@
             android:textColor="@android:color/black"
             android:textStyle="bold" />
     </LinearLayout>
-        <LinearLayout
+
+    <LinearLayout
         android:id="@+id/add_device_actvity_ln_edt_port_device"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -169,10 +186,11 @@
         <EditText
             android:id="@+id/add_device_actvity_edt_port_device"
             android:layout_width="match_parent"
-            android:inputType="number"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:inputType="number" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/add_device_actvity_ln_status_device"
         android:layout_width="match_parent"

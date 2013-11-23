@@ -9,8 +9,11 @@ import my.com.homesmartvertablet.activity.MainActivity;
 import my.com.homesmartvertablet.adapter.ListRoomAdapter.ViewHolder;
 import my.com.homesmartvertablet.controller.DeviceItemController;
 import my.com.homesmartvertablet.model.DeviceItem;
+import my.com.homesmartvertablet.utils.CommonFunctions;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +33,9 @@ public class ListDeviceAdapter extends ArrayAdapter<DeviceItem>{
 	private int resourceId;
 	private int checkStatus = 0;
 	private int deviceType = 0;
+	private int portDevice = 0;
 	private AnimationDrawable frameAnimation;
+	private ProgressDialog dialog;
 	public ListDeviceAdapter(Context context, int textViewResourceId, List<DeviceItem> list) {
 		super(context, textViewResourceId, list);
 		// TODO Auto-generated constructor stub
@@ -60,7 +65,7 @@ public class ListDeviceAdapter extends ArrayAdapter<DeviceItem>{
 			holder = (ViewHolder) convertView.getTag();
 		}
 		final DeviceItem item = getItem(position);
-		// type: 0 - lamp, 1 -fan, 2-window gara, 3-canera
+		// type: 0 - lamp, 1 -fan, 2-window gara, 3-canera, 4- tv
 		checkStatus = item.getStatus(); 
 		//toggle = checkStatus;
 		deviceType = item.getDeviceType();
@@ -96,6 +101,13 @@ public class ListDeviceAdapter extends ArrayAdapter<DeviceItem>{
 					holder.deviceType.setImageResource(R.drawable.camera_on);
 				break;
 			}
+			case 4:{
+				if(checkStatus == 0)
+					holder.deviceType.setImageResource(R.drawable.tv_128_off);
+				else
+					holder.deviceType.setImageResource(R.drawable.tv_128);
+				break;
+			}
 		}
 		
 		if(checkStatus == 0)
@@ -114,25 +126,48 @@ public class ListDeviceAdapter extends ArrayAdapter<DeviceItem>{
 				// TODO Auto-generated method stub
 				deviceType = item.getDeviceType();
 				checkStatus = item.getStatus();
+				portDevice = item.getDevicePort();
 				checkStatus = checkStatus ^ 1; // status when press button switch
+				
 				switch(checkStatus){
 					case 0:{
 						holder.btnSwitch.setImageResource(R.drawable.switch_off);
 						switch(deviceType){
 							case 0 :{//lamp
 								holder.deviceType.setImageResource(R.drawable.lamp_off);
+//								try{
+//									String body = "Tat@" + portDevice ;
+//									CommonFunctions.sendMess(MainActivity.phoneNumberDefault, body);
+//								}catch(Exception ex){
+//									ex.printStackTrace();
+//									Toast.makeText(getContext(), "Please insert your SIM device control!", Toast.LENGTH_SHORT).show();
+//								}
+								//sendMess("Tat@");
+								new WaitToProcessing().execute("Tat@");
 								break;
 							}
 							case 1:{//fan
 								holder.deviceType.setBackgroundResource(R.drawable.fan_off);
+								//sendMess("Tat@");
+								new WaitToProcessing().execute("Tat@");
 								break;
 							}
 							case 2:{//window
 								holder.deviceType.setImageResource(R.drawable.gara_car_off);
+								//sendMess("Tat@");
+								new WaitToProcessing().execute("Tat@");
 								break;
 							}
 							case 3:{//camera
 								holder.deviceType.setImageResource(R.drawable.camera_off);
+								//sendMess("Tat@");
+								new WaitToProcessing().execute("Tat@");
+								break;
+							}
+							case 4:{//tv
+								holder.deviceType.setImageResource(R.drawable.camera_off);
+								//sendMess("Tat@");
+								new WaitToProcessing().execute("Tat@");
 								break;
 							}
 						}
@@ -145,6 +180,8 @@ public class ListDeviceAdapter extends ArrayAdapter<DeviceItem>{
 							case 0 :{//lamp
 								holder.deviceType.setImageResource(R.drawable.lamp_on);
 								//send mess
+								//sendMess("Bat@");
+								new WaitToProcessing().execute("Bat@");
 								break;
 							}
 							case 1:{//fan
@@ -152,19 +189,31 @@ public class ListDeviceAdapter extends ArrayAdapter<DeviceItem>{
 								frameAnimation = (AnimationDrawable) holder.deviceType.getBackground();
 								frameAnimation.start();
 								//send mess
+								//sendMess("Bat@");
+								new WaitToProcessing().execute("Bat@");
 								break;
 							}
 							case 2:{//window
 								holder.deviceType.setImageResource(R.drawable.gara_car_on);
 								//send mess
+								//sendMess("Bat@");
+								new WaitToProcessing().execute("Bat@");
 								break;
 							}
 							case 3:{//camera
 								holder.deviceType.setImageResource(R.drawable.camera_on);
 								//send mess
+								//sendMess("Bat@");
+								new WaitToProcessing().execute("Bat@");
 								break;
 							}
-							
+							case 4:{//tv
+								holder.deviceType.setImageResource(R.drawable.camera_on);
+								//send mess
+								//sendMess("Bat@");
+								new WaitToProcessing().execute("Bat@");
+								break;
+							}
 						}
 						break;
 					}
@@ -200,5 +249,46 @@ public class ListDeviceAdapter extends ArrayAdapter<DeviceItem>{
 		private TextView deviceName;
 		private ImageButton btnSwitch;
 	}
+	public void sendMess(String mess){
+		try{
+			String body = mess + portDevice ;
+			CommonFunctions.sendMess(MainActivity.phoneNumberDefault, body);
+		}catch(Exception ex){
+			ex.printStackTrace();
+			Toast.makeText(getContext(), "Please insert your SIM device control!", Toast.LENGTH_SHORT).show();
+		}
+	}
+	private class WaitToProcessing extends AsyncTask<String, Void, Void>{
+
+		@Override
+		protected Void doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			String data = params[0];
+			sendMess(data);
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			// TODO Auto-generated method stub
+			dialog.dismiss();
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			dialog = new ProgressDialog(getContext());
+			dialog.setMessage("Processing...");
+			dialog.show();
+		}
+		
+	}
+
 
 }

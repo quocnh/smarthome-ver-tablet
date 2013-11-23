@@ -11,24 +11,37 @@ import my.com.homesmartvertablet.adapter.ListRoomAdapter;
 import my.com.homesmartvertablet.controller.DeviceItemController;
 import my.com.homesmartvertablet.model.DeviceItem;
 import my.com.homesmartvertablet.model.RoomItem;
+import my.com.homesmartvertablet.utils.CommonFunctions;
+import my.com.homesmartvertablet.utils.PreferenceHelper;
 
+import android.R.color;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnLongClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AbsListView;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
@@ -41,16 +54,54 @@ public class MainActivity extends Activity {
 	private static int pos = 0;
 	private static int posRoom =0;
 	public static String phoneNumberDefault ;
+	private RelativeLayout overlay;
+	private int checkOverlay = 0;
+	private static int lastClickId = -1;
+	private int flag_on_off_all_devices = 0;
+	private  DeviceItem items;
+	private Button btnSwitch;
 	//update check-out my svn
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+		btnSwitch = (Button)findViewById(R.id.on_off_all_option);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		//getActionBar().setHomeButtonEnabled(true);
+		
+		// set background color for actionbar
+		Drawable d = getResources().getDrawable(R.drawable.background_3);  
+		getActionBar().setBackgroundDrawable(d);
+//		ColorDrawable colorDrawable = new ColorDrawable();
+//		colorDrawable.setColor(0xff00ddff);
+//		getActionBar().setBackgroundDrawable(colorDrawable);
+		
 		listviewRoomHouse = (ListView)findViewById(R.id.main_list_room);
+		listviewRoomHouse.setSelector(R.drawable.list_selector);
 		listviewDeviceItem = (ListView)findViewById(R.id.main_list_device);
+		overlay = (RelativeLayout)findViewById(R.id.relative_overlay_instruction);
 		
+		PreferenceHelper.getInstance(this);
+		PreferenceHelper.putInteger("CHECK_OVERLAY", 0);
+		checkOverlay = PreferenceHelper.getInteger("CHECK_OVERLAY", 0);
 		
+		//get phone default number
+		phoneNumberDefault = PreferenceHelper.getString("PHONE_NUMBER_DEVICE", "");
+		if(checkOverlay == 1){
+			overlay.setVisibility(View.INVISIBLE);
+		}
+		
+		overlay.setOnLongClickListener(new OnLongClickListener() {
+			
+			@Override
+			public boolean onLongClick(View arg0) {
+				// TODO Auto-generated method stub
+				PreferenceHelper.putInteger("CHECK_OVERLAY", 1);
+				overlay.setVisibility(View.INVISIBLE);
+				return false;
+			}
+		});
 		final String[] roomName = new String[]{"Living Room","Bed Room","Kitchen Room","Toilet"};
 		
 		listRoom = new ArrayList<RoomItem>();
@@ -81,6 +132,18 @@ public class MainActivity extends Activity {
 				}
 			}
 		});
+	
+		listviewRoomHouse.postDelayed(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				Log.w("POSR_ROOM", posRoom + "");
+				if (listviewRoomHouse.getFirstVisiblePosition() > posRoom | listviewRoomHouse.getLastVisiblePosition() <= posRoom) {
+					listviewRoomHouse.smoothScrollToPosition(posRoom - 1);
+				}
+			}
+		}, 1000L);
 		listviewDeviceItem.setOnScrollListener(new OnScrollListener() {
 			
 			@Override
@@ -98,7 +161,7 @@ public class MainActivity extends Activity {
 		
 		// create list item of living room
 		// 0-living room, 1 - bed room, 2-kitchen room, 3-toilet
-		// 0 - lamp, 1 -fan, 2-window gara, 3-camera
+		// 0 - lamp, 1 -fan, 2-window gara, 3-camera,4-tv
 		// total is 10 port
 //		for(int i =0; i < 6; i++){
 //			DeviceItem item = new DeviceItem(0,"Device " + i ,0, i,0);
@@ -117,7 +180,6 @@ public class MainActivity extends Activity {
 //		}
 		registerForContextMenu(listviewDeviceItem);
 	}
-
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
@@ -137,6 +199,14 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
+		refesh();
+		// kinh nghiem la khi add moi 1 item tu activity khac, thi setonResult tra ve, add item do lai vao list item, roi notify adapter lai de update ui
+		// neu trong onREsume() ma lay all item, new adapter moi lai, thi no van update ui, nhung ve~ lai draw, 
+		// => do do moi lan app resume no lai ve~ chong len cai cu~, cam giac nhu bi dinh' draw.
+		super.onResume();
+		
+	}
+	public void refesh(){
 		try {
 			listDeviceItem = DeviceItemController.getInstance(MainActivity.this).getListDeviceOfRoomByRoomID(posRoom);
 		} catch (SQLException e) {
@@ -145,13 +215,7 @@ public class MainActivity extends Activity {
 		}
 		deviceAdapter = new ListDeviceAdapter(MainActivity.this, R.layout.inflater_item_of_list_device, listDeviceItem);
 		listviewDeviceItem.setAdapter(deviceAdapter);
-		// kinh nghiem la khi add moi 1 item tu activity khac, thi setonResult tra ve, add item do lai vao list item, roi notify adapter lai de update ui
-		// neu trong onREsume() ma lay all item, new adapter moi lai, thi no van update ui, nhung ve~ lai draw, 
-		// => do do moi lan app resume no lai ve~ chong len cai cu~, cam giac nhu bi dinh' draw.
-		super.onResume();
-		
 	}
-
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
@@ -180,6 +244,23 @@ public class MainActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
 		switch(item.getItemId()){
+			case android.R.id.home: {
+//				Intent upIntent = new Intent(this, DisplayFragmentActivity.class);
+//				if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
+//					// This activity is not part of the application's task, so
+//					// create a new task
+//					// with a synthesized back stack.
+//					TaskStackBuilder.from(this)
+//							.addNextIntent(new Intent(this, MainActivity.class))
+//							.addNextIntent(upIntent).startActivities();
+//					finish();
+//				} else {
+//					// This activity is part of the application's task, so simply
+//					// navigate up to the hierarchical parent activity.
+//					NavUtils.navigateUpTo(this, upIntent);
+//				}
+				break;
+			}
 			case R.id.add_option:{
 				Toast.makeText(MainActivity.this, "ADD", Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent(MainActivity.this,AddDeviceItemActivity.class);
@@ -200,6 +281,29 @@ public class MainActivity extends Activity {
 				Toast.makeText(MainActivity.this, "SETTINGS", Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent(MainActivity.this, PreferenceActivity.class);
 				startActivity(intent);
+				break;
+			}
+			case R.id.on_off_all_option:{
+				flag_on_off_all_devices = flag_on_off_all_devices ^ 1;
+				
+				switch(flag_on_off_all_devices){
+					case 0:{
+						item.setIcon(R.drawable.switch_off);
+						item.setTitle("OFF");
+						Toast.makeText(this, "Turn off all devices!", Toast.LENGTH_SHORT).show();
+						Switch("Tat@a", 0);
+						refesh();
+						break;
+					}
+					case 1:{
+						item.setIcon(R.drawable.switch_on);
+						item.setTitle("ON");
+						Toast.makeText(this, "Turn on all devices!", Toast.LENGTH_SHORT).show();
+						Switch("Bat@a", 1);
+						refesh();
+						break;
+					}
+				}
 				break;
 			}
 		}
@@ -283,6 +387,26 @@ public class MainActivity extends Activity {
 		});
 		AlertDialog dialog = builder.create();
 		dialog.show();
+		
+	}
+	public void Switch(String command, int status){
+		try {
+			// send mess turn off all devices
+			CommonFunctions.sendMess(MainActivity.phoneNumberDefault, command);
+			// then save status on database
+			// get all devices
+			
+				listDeviceItem = DeviceItemController.getInstance(this).getAllDeviceItem();
+				for(int i =0; i < listDeviceItem.size(); i++){
+					items = listDeviceItem.get(i);
+					items.setStatus(status);
+					DeviceItemController.getInstance(this).updateDeviceItemByID(items, items.getDeviceID());
+					
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		
 	}
 
