@@ -200,9 +200,6 @@ public class MainActivity extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		refesh();
-		// kinh nghiem la khi add moi 1 item tu activity khac, thi setonResult tra ve, add item do lai vao list item, roi notify adapter lai de update ui
-		// neu trong onREsume() ma lay all item, new adapter moi lai, thi no van update ui, nhung ve~ lai draw, 
-		// => do do moi lan app resume no lai ve~ chong len cai cu~, cam giac nhu bi dinh' draw.
 		super.onResume();
 		
 	}
