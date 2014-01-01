@@ -134,40 +134,28 @@ public class ListDeviceAdapter extends ArrayAdapter<DeviceItem>{
 						holder.btnSwitch.setImageResource(R.drawable.switch_off);
 						switch(deviceType){
 							case 0 :{//lamp
-								holder.deviceType.setImageResource(R.drawable.lamp_off);
-//								try{
-//									String body = "Tat@" + portDevice ;
-//									CommonFunctions.sendMess(MainActivity.phoneNumberDefault, body);
-//								}catch(Exception ex){
-//									ex.printStackTrace();
-//									Toast.makeText(getContext(), "Please insert your SIM device control!", Toast.LENGTH_SHORT).show();
-//								}
-								//sendMess("Tat@");
 								new WaitToProcessing().execute("Tat@");
+								holder.deviceType.setImageResource(R.drawable.lamp_off);
 								break;
 							}
 							case 1:{//fan
-								holder.deviceType.setBackgroundResource(R.drawable.fan_off);
-								//sendMess("Tat@");
 								new WaitToProcessing().execute("Tat@");
+								holder.deviceType.setBackgroundResource(R.drawable.fan_off);
 								break;
 							}
 							case 2:{//window
-								holder.deviceType.setImageResource(R.drawable.gara_car_off);
-								//sendMess("Tat@");
 								new WaitToProcessing().execute("Tat@");
+								holder.deviceType.setImageResource(R.drawable.gara_car_off);
 								break;
 							}
 							case 3:{//camera
-								holder.deviceType.setImageResource(R.drawable.camera_off);
-								//sendMess("Tat@");
 								new WaitToProcessing().execute("Tat@");
+								holder.deviceType.setImageResource(R.drawable.camera_off);
 								break;
 							}
 							case 4:{//tv
-								holder.deviceType.setImageResource(R.drawable.camera_off);
-								//sendMess("Tat@");
 								new WaitToProcessing().execute("Tat@");
+								holder.deviceType.setImageResource(R.drawable.camera_off);
 								break;
 							}
 						}
@@ -178,40 +166,32 @@ public class ListDeviceAdapter extends ArrayAdapter<DeviceItem>{
 						holder.btnSwitch.setImageResource(R.drawable.switch_on);
 						switch(deviceType){
 							case 0 :{//lamp
-								holder.deviceType.setImageResource(R.drawable.lamp_on);
-								//send mess
-								//sendMess("Bat@");
 								new WaitToProcessing().execute("Bat@");
+							
+								holder.deviceType.setImageResource(R.drawable.lamp_on);
 								break;
 							}
 							case 1:{//fan
+								new WaitToProcessing().execute("Bat@");
 								holder.deviceType.setBackgroundResource(R.drawable.fan_on_spin_animation);
 								frameAnimation = (AnimationDrawable) holder.deviceType.getBackground();
 								frameAnimation.start();
-								//send mess
-								//sendMess("Bat@");
-								new WaitToProcessing().execute("Bat@");
+							
 								break;
 							}
 							case 2:{//window
-								holder.deviceType.setImageResource(R.drawable.gara_car_on);
-								//send mess
-								//sendMess("Bat@");
 								new WaitToProcessing().execute("Bat@");
+								holder.deviceType.setImageResource(R.drawable.gara_car_on);
 								break;
 							}
 							case 3:{//camera
-								holder.deviceType.setImageResource(R.drawable.camera_on);
-								//send mess
-								//sendMess("Bat@");
 								new WaitToProcessing().execute("Bat@");
+								holder.deviceType.setImageResource(R.drawable.camera_on);
 								break;
 							}
 							case 4:{//tv
-								holder.deviceType.setImageResource(R.drawable.camera_on);
-								//send mess
-								//sendMess("Bat@");
 								new WaitToProcessing().execute("Bat@");
+								holder.deviceType.setImageResource(R.drawable.camera_on);
 								break;
 							}
 						}
@@ -266,9 +246,8 @@ public class ListDeviceAdapter extends ArrayAdapter<DeviceItem>{
 			String data = params[0];
 			sendMess(data);
 			try {
-				Thread.sleep(2000);
+				Thread.sleep(7000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return null;

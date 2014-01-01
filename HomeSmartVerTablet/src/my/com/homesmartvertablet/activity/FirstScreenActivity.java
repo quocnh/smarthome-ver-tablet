@@ -1,7 +1,11 @@
 package my.com.homesmartvertablet.activity;
 
+import java.sql.SQLException;
+
 import com.example.homesmartvertablet.activity.R;
 
+import my.com.homesmartvertablet.controller.DeviceItemController;
+import my.com.homesmartvertablet.model.Login;
 import my.com.homesmartvertablet.utils.PreferenceHelper;
 import android.app.Activity;
 import android.content.Intent;
@@ -19,6 +23,19 @@ public class FirstScreenActivity extends Activity  implements AnimationListener{
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		
+		// create a new user
+		Login newUser = new Login();
+		newUser.username = getString(R.string.label_admin);
+		newUser.password = getString(R.string.label_admin);
+		
+		try {
+			DeviceItemController.getInstance(FirstScreenActivity.this).createLoginUser(newUser);
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		
 		PreferenceHelper.getInstance(FirstScreenActivity.this);
 		if(PreferenceHelper.getInteger("CONFIG_DONE", 0) == 0){
 			setContentView(R.layout.activity_first_screen);
@@ -45,7 +62,7 @@ public class FirstScreenActivity extends Activity  implements AnimationListener{
 				@Override
 				protected void onPostExecute(Void result) {
 					// TODO Auto-generated method stub
-					Intent intent = new Intent(FirstScreenActivity.this,PhoneNumberConfigActivity.class);
+					Intent intent = new Intent(FirstScreenActivity.this,LoginActivity.class);
 					startActivity(intent);
 					FirstScreenActivity.this.finish();
 				}

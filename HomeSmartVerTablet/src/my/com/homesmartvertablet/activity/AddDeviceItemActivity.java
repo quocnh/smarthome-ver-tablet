@@ -1,6 +1,8 @@
 package my.com.homesmartvertablet.activity;
 
 import java.sql.SQLException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import my.com.homesmartvertablet.controller.DeviceItemController;
 import my.com.homesmartvertablet.model.DeviceItem;
@@ -10,6 +12,9 @@ import com.example.homesmartvertablet.activity.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -26,6 +31,9 @@ public class AddDeviceItemActivity extends Activity implements OnCheckedChangeLi
 	private RadioGroup radioGroup;
 	private ImageButton toggleSwitch;
 	private Button btnAdd, btnCancel;
+	/**
+	 * @author nhquoc
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -36,15 +44,45 @@ public class AddDeviceItemActivity extends Activity implements OnCheckedChangeLi
 		btnCancel = (Button)findViewById(R.id.add_device_actvity_btn_cancel);
 		edtNameDevice = (EditText)findViewById(R.id.add_device_actvity_edt_name_device);
 		edtPortDevice = (EditText)findViewById(R.id.add_device_actvity_edt_port_device);
+		edtPortDevice.setFilters(
+		        new InputFilter[] { new InputFilter.LengthFilter(1), validCharsInputFilter });
 		radioGroup = (RadioGroup)findViewById(R.id.add_device_actvity_radio_group);
 		toggleSwitch = (ImageButton)findViewById(R.id.add_device_actvity_toggle_status);
-		
+	
 		toggleSwitch.setOnClickListener(this);
 		radioGroup.setOnCheckedChangeListener(this);
 		btnAdd.setOnClickListener(this);
 		btnCancel.setOnClickListener(this);
 		
 	}
+	/**
+	 * check validation of edittext
+	 */
+	InputFilter validCharsInputFilter = new InputFilter() {
+
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end,
+                Spanned dest, int dstart, int dend) {
+
+            // Loop through characters being inserted
+            for (int i = start; i < end; i++) {
+
+            	 String checkMe = String.valueOf(source.charAt(i));
+
+		            Pattern pattern = Pattern.compile("[1234]*");
+		            Matcher matcher = pattern.matcher(checkMe);
+		            boolean valid = matcher.matches();
+		            if(!valid){
+		                Log.d("", "invalid");
+		                return "";
+		            }
+            }
+
+            // If we've got this far, then return null to accept string
+            return null;
+        }
+    };
+
 	@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
 		// TODO Auto-generated method stub
@@ -114,6 +152,12 @@ public class AddDeviceItemActivity extends Activity implements OnCheckedChangeLi
 			}
 		}
 	}
+	
+	/**
+	 * 
+	 * this function support add new device
+	 * @throws SQLException
+	 */
 	private void addDeviceItem() throws SQLException {
 		// TODO Auto-generated method stub
 		try{
