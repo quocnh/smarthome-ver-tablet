@@ -1,4 +1,4 @@
-# smarthome-ver-tablet
+# Smarthome-ver-tablet
 Automatically exported from code.google.com/p/smarthome-ver-tablet
 There are 2 main parts in this project:
 + Hardware with ARM microcontroler to control the house
